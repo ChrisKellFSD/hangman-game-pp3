@@ -28,6 +28,19 @@ def main_title():
         """
     )
 
+def welcome_message():
+    user = None
+
+    while True:
+        user = input('Hello. What is your name? \n')
+
+        if not user.isalpha():
+            print('Please use alphabetic characters only.')
+            continue
+        else:
+            print('welcome '+username 'Lets play Hangman')
+            break
+
 
 def play_game(word):
     chances = 7
