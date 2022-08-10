@@ -4,7 +4,13 @@ from words_for_hangman import hangman_words
 
 def hangman_word():
     word = random.choice(hangman_words)
-    return word.upper
+    return word.upper()
+
+def clear_terminal():
+    """
+    Clears the terminal
+    """
+    os.system(('cls' if os.name == 'nt' else 'clear'))
 
 
 def main_title():
@@ -13,7 +19,7 @@ def main_title():
 .-. .-.  .--.  .-. .-. .---. .-.   .-.  .--.  .-. .-.
 | {_} | / {} \ |  `| |/   __}|  `.'  | / {} \ |  `| |
 | { } |/  /\  \| |\  |\  {_ }| |\ /| |/  /\  \| |\  |
-`-' `-'`-'  `-'`-' `-' `---' `-' ` `-'`-'  `-'`-' `-'                                                                                                           
+`-' `-'`-'  `-'`-' `-' `---' `-' ` `-'`-'  `-'`-' `-'                                                                                                          
         """
     )
     print(
@@ -28,19 +34,6 @@ def main_title():
         """
     )
 
-def welcome_message():
-    user = None
-
-    while True:
-        user = input('Hello. What is your name? \n')
-
-        if not user.isalpha():
-            print('Please use alphabetic characters only.')
-            continue
-        else:
-            print('welcome '+username 'Lets play Hangman')
-            break
-
 
 def play_game(word):
     chances = 7
@@ -49,15 +42,15 @@ def play_game(word):
 
     while not finished:
         for char in word:
-            if char in guesses:
+            if char.lower() in guesses:
                 print(char, end=" ")
             else:
-                print(" ", end=" ")
+                print("_", end=" ")
         print("")
-        
-        guess = input(f"You have {chances} chances left, Guess again :")
+       
+        guess = input(f"You have {chances} chances left. : ")
         guesses.append(guess)
-        if guess not in word:
+        if guess.lower() not in word.lower():
             chances -= 1
             if chances == 0:
                 break
