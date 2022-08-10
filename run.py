@@ -1,10 +1,12 @@
 import random
+import os
 from words_for_hangman import hangman_words
 
 
 def hangman_word():
     word = random.choice(hangman_words)
     return word.upper()
+
 
 def clear_terminal():
     """
@@ -38,6 +40,7 @@ def main_title():
 def play_game(word):
     chances = 7
     guesses = []
+    guessed_word = []
     finished = False
 
     while not finished:
@@ -52,8 +55,11 @@ def play_game(word):
         guesses.append(guess)
         if guess.lower() not in word.lower():
             chances -= 1
+            print("Unlucky! Try again!")
             if chances == 0:
                 break
+        if ''.join(guessed_word) == word:
+            print("Well done! you have gussed the correct word")
 
         finished = True
         for char in word:
