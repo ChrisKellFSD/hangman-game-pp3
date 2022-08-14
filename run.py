@@ -18,21 +18,13 @@ def clear_terminal():
 def main_title():
     print(
         """
-          +---+
-          |   |
-          O   |
-         /|\  |
-         / \  |
-              |
-        =========
-        """
-    )
-    print(
-        """
-.-. .-.  .--.  .-. .-. .---. .-.   .-.  .--.  .-. .-.
-| {_} | / {} \ |  `| |/   __}|  `.'  | / {} \ |  `| |
-| { } |/  /\  \| |\  |\  {_ }| |\ /| |/  /\  \| |\  |
-`-' `-'`-'  `-'`-' `-' `---' `-' ` `-'`-'  `-'`-' `-'                                                                                                          
+                                                            +---+
+.-. .-.  .--.  .-. .-. .---. .-.   .-.  .--.  .-. .-.       |   |
+| {_} | / {} \ |  `| |/   __}|  `.'  | / {} \ |  `| |       O   |
+| { } |/  /\  \| |\  |\  {_ }| |\ /| |/  /\  \| |\  |      /|\  |
+`-' `-'`-'  `-'`-' `-' `---' `-' ` `-'`-'  `-'`-' `-'      / \  |
+                                                                |  
+                                                         =========                                   
         """
     )
 
@@ -64,25 +56,24 @@ def play(word):
     guessed = False
     guessed_letters = []
     guessed_words = []
-    chances = 6
-    main_title()
+    chances = 9
     print(display_hangman(chances))
     print(hangman_word)
     print("\n")
     while not guessed and chances > 0:
-        guess = input("Please guess a letter or word: ").upper()
+        guess = input("Guess a letter or word: ").upper()
         if len(guess) == 1 and guess.isalpha():
             if guess in guessed_letters:
                 clear_terminal()
-                print("You already guessed the letter", guess)
+                print(f"You already guessed the letter: {guess}")
             elif guess not in word:
                 clear_terminal()
-                print(guess, "is not in the word.")
+                print(f"Unlucky, {guess} is not in the word.")
                 chances -= 1
                 guessed_letters.append(guess)
             else:
                 clear_terminal()
-                print("Good job,", guess, "is in the word!")
+                print(f"Great! {guess} is in the word!")
                 guessed_letters.append(guess)
                 word_as_list = list(hangman_word)
                 ind = [i for i, letter in enumerate(word) if letter == guess]
@@ -94,10 +85,10 @@ def play(word):
         elif len(guess) == len(word) and guess.isalpha():
             if guess in guessed_words:
                 clear_terminal()
-                print("You already guessed the word", guess)
+                print(f"Eh, you guessed {guess} already")
             elif guess != word:
                 clear_terminal()
-                print(guess, "is not the word.")
+                print(f"Unlucky! but {guess} is not the word.")
                 chances -= 1
                 guessed_words.append(guess)
             else:
@@ -113,6 +104,7 @@ def play(word):
     if guessed:
         clear_terminal()
         print("Congrats, you guessed the word! You win!")
+        replay_game()
     else:
         clear_terminal()
         print("""
@@ -124,7 +116,8 @@ def play(word):
                                                       
         """)
         print("\n")
-        print("The word was " + word + ". Maybe next time!")
+        print(f"To ease your pain, the word was {word}")
+        replay_game()
 
 
 def display_hangman(chances):
@@ -133,9 +126,9 @@ def display_hangman(chances):
                    --------
                    |      |
                    |      O
-                   |     \\|/
+                   |     \|/
                    |      |
-                   |     / \\
+                   |     / \
                    -------
                 """,
                 
@@ -143,7 +136,7 @@ def display_hangman(chances):
                    --------
                    |      |
                    |      O
-                   |     \\|/
+                   |     \|/
                    |      |
                    |     / 
                    -------
@@ -153,7 +146,7 @@ def display_hangman(chances):
                    --------
                    |      |
                    |      O
-                   |     \\|/
+                   |     \|/
                    |      |
                    |      
                    -------
@@ -163,7 +156,7 @@ def display_hangman(chances):
                    --------
                    |      |
                    |      O
-                   |     \\|
+                   |     \|
                    |      |
                    |     
                    -------
@@ -229,12 +222,17 @@ def display_hangman(chances):
     return stages[chances]
 
 
-def main():
-    word = get_word()
-    play(word)
+def replay_game():
     while input("Play Again? (Y/N) ").upper() == "Y":
+        clear_terminal()
         word = get_word()
         play(word)
+
+
+def main():
+    main_title()
+    word = get_word()
+    play(word)
 
 
 if __name__ == "__main__":
