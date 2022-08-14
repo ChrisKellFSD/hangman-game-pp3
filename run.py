@@ -57,7 +57,7 @@ def play(word):
     guessed_letters = []
     guessed_words = []
     chances = 9
-    print(display_hangman(chances))
+    print(hangman_sketch(chances))
     print(hangman_word)
     print("\n")
     while not guessed and chances > 0:
@@ -75,11 +75,11 @@ def play(word):
                 clear_terminal()
                 print(f"Great! {guess} is in the word!")
                 guessed_letters.append(guess)
-                word_as_list = list(hangman_word)
+                word_list = list(hangman_word)
                 ind = [i for i, letter in enumerate(word) if letter == guess]
                 for index in ind:
-                    word_as_list[index] = guess
-                hangman_word = "".join(word_as_list)
+                    word_list[index] = guess
+                hangman_word = "".join(word_list)
                 if "_" not in hangman_word:
                     guessed = True
         elif len(guess) == len(word) and guess.isalpha():
@@ -98,29 +98,23 @@ def play(word):
         else:
             clear_terminal()
             print("Not a valid guess.")
-        print(display_hangman(chances))
+        print(hangman_sketch(chances))
         print(hangman_word)
         print("\n")
     if guessed:
         clear_terminal()
-        print("Congrats, you guessed the word! You win!")
+        game_win()
+        print(f"Congrats, you guessed the word {word}")
         replay_game()
     else:
         clear_terminal()
-        print("""
-   ____                         ___                 _ 
-  / ___| __ _ _ __ ___   ___   / _ \__   _____ _ __| |
- | |  _ / _` | '_ ` _ \ / _ \ | | | \ \ / / _ \ '__| |
- | |_| | (_| | | | | | |  __/ | |_| |\ V /  __/ |  |_|
-  \____|\__,_|_| |_| |_|\___|  \___/  \_/ \___|_|  (_)
-                                                      
-        """)
+        game_over()
         print("\n")
         print(f"To ease your pain, the word was {word}")
         replay_game()
 
 
-def display_hangman(chances):
+def hangman_sketch(chances):
     stages = [  
                 """
                    --------
@@ -220,6 +214,28 @@ def display_hangman(chances):
                 """
     ]
     return stages[chances]
+
+
+def game_win():
+    print("""
+ __        __   _ _   ____                   _ 
+ \ \      / /__| | | |  _ \  ___  _ __   ___| |
+  \ \ /\ / / _ \ | | | | | |/ _ \| '_ \ / _ \ |
+   \ V  V /  __/ | | | |_| | (_) | | | |  __/_|
+    \_/\_/ \___|_|_| |____/ \___/|_| |_|\___(_)
+                                                                                             
+        """)
+
+
+def game_over():
+    print("""
+   ____                         ___                 _ 
+  / ___| __ _ _ __ ___   ___   / _ \__   _____ _ __| |
+ | |  _ / _` | '_ ` _ \ / _ \ | | | \ \ / / _ \ '__| |
+ | |_| | (_| | | | | | |  __/ | |_| |\ V /  __/ |  |_|
+  \____|\__,_|_| |_| |_|\___|  \___/  \_/ \___|_|  (_)
+                                                      
+        """)
 
 
 def replay_game():
