@@ -2,17 +2,22 @@ import random
 import os
 from words_for_hangman import hangman_words
 
+print(
+        """
+                                                            +---+
+.-. .-.  .--.  .-. .-. .---. .-.   .-.  .--.  .-. .-.       |   |
+| {_} | / {} \ |  `| |/   __}|  `.'  | / {} \ |  `| |       O   |
+| { } |/  /\  \| |\  |\  {_ }| |\ /| |/  /\  \| |\  |      /|\  |
+`-' `-'`-'  `-'`-' `-' `---' `-' ` `-'`-'  `-'`-' `-'      / \  |
+                                                                |  
+                                                         =========                                   
+        """
+    )
+
 
 def get_word():
     word = random.choice(hangman_words)
     return word.upper()
-
-
-def clear_terminal():
-    """
-    Clears the terminal
-    """
-    os.system(('cls' if os.name == 'nt' else 'clear'))
 
 
 def main_title():
@@ -29,18 +34,25 @@ def main_title():
     )
 
 
+def clear_terminal():
+    """
+    Clears the terminal
+    """
+    os.system(('cls' if os.name == 'nt' else 'clear'))
+    main_title()
+
+
 def main_menu():
     main_title()
     """
     Display a welcome title and navigate to start the game or see rules
     """
-    clear_terminal()
     print("1: Play Hangman")
     print("2: How to Play")
     while True:
         player_choice = input("Please select 1 or 2: ")
         if player_choice == "1":
-            difficulty()
+            play_game()
         elif player_choice == "2":
             rules()
         else:
@@ -70,35 +82,13 @@ def rules():
     main_menu()
 
 
-def difficulty():
-    clear_terminal()
-    print('\n')
-    print("Please select E for Easy")
-    print("Please select M for Medium")
-    print("Please select H for Hard")
-    difficulty = False
-    while not difficulty:
-        difficulty_level = input("").upper()
-        if difficulty_level == "E":
-            difficulty = True
-            lives = 9
-        elif difficulty_level == "M":
-            difficulty = True
-            lives = 8
-        elif difficulty_level == "H":
-            difficulty = True
-            lives = 6
-        else:
-            print("Please choose a difficulty")
-    return lives
-
-
-def play(word, lives):
+def play(word):
     hangman_word = "_" * len(word)
     guessed = False
     guessed_letters = []
     guessed_words = []
-    chances = lives
+    chances = 9
+    clear_terminal()
     print(hangman_sketch(chances))
     print(hangman_word)
     print("\n")
@@ -281,15 +271,15 @@ def game_over():
 
 
 def replay_game():
-    print("Play Again? (Y/N)")
-    if input("").upper() == "Y":
-        clear_terminal()
-        play_game()
-    elif input("").upper() == "N":
-        clear_terminal()
-        main_menu()
-    else:
-        print("Please click either Y or N")
+    while True:
+        player_input = input("Would you like to play again? Y/N ").upper()
+        print('\n')
+        if player_input == "Y":
+            play_game()
+        elif player_input == "N":
+            main_menu()
+        else:
+            print("You must press Y or N")
 
 
 def play_game():
@@ -297,9 +287,5 @@ def play_game():
     play(word)
 
 
-def main():
-    main_menu()
 
-
-if __name__ == "__main__":
-    main()
+main_menu()
