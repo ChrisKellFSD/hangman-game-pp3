@@ -29,6 +29,24 @@ def main_title():
     )
 
 
+def main_menu():
+    main_title()
+    """
+    Display a welcome title and navigate to start the game or see rules
+    """
+    clear_terminal()
+    print("1: Play Hangman")
+    print("2: How to Play")
+    while True:
+        player_choice = input("Please select 1 or 2: ")
+        if player_choice == "1":
+            difficulty()
+        elif player_choice == "2":
+            rules()
+        else:
+            print("To proceed, please choose either 1 or 2")
+
+
 def rules():
     """
     Display rules after the title
@@ -48,15 +66,39 @@ def rules():
             """
             )
 
-    input("Press enter to return to the main menu\n")
+    input("Press enter to return to the main menu \n")
+    main_menu()
 
 
-def play(word):
+def difficulty():
+    clear_terminal()
+    print('\n')
+    print("Please select E for Easy")
+    print("Please select M for Medium")
+    print("Please select H for Hard")
+    difficulty = False
+    while not difficulty:
+        difficulty_level = input("").upper()
+        if difficulty_level == "E":
+            difficulty = True
+            lives = 9
+        elif difficulty_level == "M":
+            difficulty = True
+            lives = 8
+        elif difficulty_level == "H":
+            difficulty = True
+            lives = 6
+        else:
+            print("Please choose a difficulty")
+    return lives
+
+
+def play(word, lives):
     hangman_word = "_" * len(word)
     guessed = False
     guessed_letters = []
     guessed_words = []
-    chances = 9
+    chances = lives
     print(hangman_sketch(chances))
     print(hangman_word)
     print("\n")
@@ -239,16 +281,24 @@ def game_over():
 
 
 def replay_game():
-    while input("Play Again? (Y/N) ").upper() == "Y":
+    print("Play Again? (Y/N)")
+    if input("").upper() == "Y":
         clear_terminal()
-        word = get_word()
-        play(word)
+        play_game()
+    elif input("").upper() == "N":
+        clear_terminal()
+        main_menu()
+    else:
+        print("Please click either Y or N")
+
+
+def play_game():
+    word = get_word()
+    play(word)
 
 
 def main():
-    main_title()
-    word = get_word()
-    play(word)
+    main_menu()
 
 
 if __name__ == "__main__":
