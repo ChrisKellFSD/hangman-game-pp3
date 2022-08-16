@@ -3,6 +3,15 @@ import os
 from words_for_hangman import hangman_words
 
 
+class style:
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    BOLD = '\033[1m'
+    END = '\033[0m'
+
+
 def get_word():
     word = random.choice(hangman_words)
     return word.upper()
@@ -10,6 +19,7 @@ def get_word():
 
 def main_title():
     print(
+        style.BLUE + 
         """
                                                             +---+
 .-. .-.  .--.  .-. .-. .---. .-.   .-.  .--.  .-. .-.       |   |
@@ -18,8 +28,7 @@ def main_title():
 `-' `-'`-'  `-'`-' `-' `---' `-' ` `-'`-'  `-'`-' `-'      / \  |
                                                                 |  
                                                          =========                                   
-        """
-    )
+        """ + style.END.center(40))
 
 
 def clear_terminal():
@@ -28,17 +37,23 @@ def clear_terminal():
     """
     os.system(('cls' if os.name == 'nt' else 'clear'))
     main_title()
+    print("\n")
 
 
 def main_menu():
-    main_title()
     """
     Display a welcome title and navigate to start the game or see rules
     """
-    print("1: Play Hangman")
-    print("2: How to Play")
+    clear_terminal()
+    option_1 = "1: Play Hangman"
+    option_1_cnt = option_1.center(60)
+    print(option_1_cnt)
+    option_2 = "2: How to Play"
+    option_2_cnt = option_2.center(60)
+    print(option_2_cnt)
+    print("\n")
     while True:
-        player_choice = input("Please select 1 or 2: ")
+        player_choice = input("Please select 1 or 2: ".center(60))
         if player_choice == "1":
             play_game()
         elif player_choice == "2":
@@ -53,8 +68,9 @@ def rules():
     """
     clear_terminal()
     print(
+        style.YELLOW +
         """
-          +-\033[1m HOW TO PLAY \033[0m--------------------------------------------------+
+          +--HOW TO PLAY---------------------------------------------------+
           |                                                                |
           |  Thank you for choosing to play Hangman.                       |
           |  You will be presented with a secret word.                     |
@@ -66,10 +82,10 @@ def rules():
           |  Good luck and have fun!                                       |
           |                                                                |
           +----------------------------------------------------------------+
-          """
-         )
+          """ + style.END
+            )
 
-    input("Press enter to return to the main menu \n")
+    input(style.BOLD + "Press any key return to the main menu \n" + style.END)
     main_menu()
 
 
@@ -264,9 +280,9 @@ def game_over():
 def replay_game():
     while True:
         response = input("Would you like to play again? Y/N ").upper()
-        if response == "Y, y":
+        if response == "Y":
             play_game()
-        elif response == "N, n":
+        elif response == "N":
             main_menu()
         else:
             print("You must press Y or N")
@@ -278,4 +294,5 @@ def play_game():
     play(word)
 
 
+main_title()
 main_menu()
