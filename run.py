@@ -13,11 +13,17 @@ class style:
 
 
 def get_word():
+    """
+    Chooses a random word from the hangman list
+    """
     word = random.choice(hangman_words)
     return word.upper()
 
 
 def main_title():
+    """
+    Prints the Hangman logo for the game
+    """
     print(
         style.BLUE + 
         """
@@ -28,19 +34,22 @@ def main_title():
 `-' `-'`-'  `-'`-' `-' `---' `-' ` `-'`-'  `-'`-' `-'      / \  |
                                                                 |  
                                                          =========                                   
-        """ + style.END.center(40))
+        """ + style.END)
 
 
 def player_name():
+    """
+    This gets the users name on run and returns it
+    """
     print("Welcome to Hangman!".center(60))
     global name
     while True:
-        name = input("So tell me, what is your name? ".center(60))
+        name = input("So tell me, what is your name?\n".center(60))
         if name.isalpha():
             print(f"Welcome, {name}! Hope you have fun!".center(60))
             return name
         else:
-            print("Not a valid choice".center(60))
+            print("Sorry, I didn't quite catch that".center(60))
     return name
 
 
@@ -69,13 +78,13 @@ def main_menu(name):
     print(option_2_cnt)
     print("\n")
     while True:
-        player_choice = input("Please select 1 or 2: ".center(60))
+        player_choice = input("Please select 1 or 2:\n".center(60))
         if player_choice == "1":
             play_game()
         elif player_choice == "2":
             rules(name)
         else:
-            print("To proceed, please choose either 1 or 2")
+            print("Sorry can you".center(60))
 
 
 def rules(name):
@@ -110,6 +119,9 @@ def rules(name):
 
 
 def play(word, name):
+    """
+    Main function for the game
+    """
     hangman_word = "_" * len(word)
     guessed = False
     guessed_letters = []
@@ -158,7 +170,7 @@ def play(word, name):
                 hangman_word = word
         else:
             clear_terminal()
-            print("Not a valid guess.")
+            print(style.RED + "Not a valid guess." + style.END)
         print(hangman_sketch(chances))
         print(hangman_word)
         print("\n")
@@ -176,6 +188,9 @@ def play(word, name):
 
 
 def hangman_sketch(chances):
+    """
+    Hangman stages, taken from a tutorial
+    """
     stages = [  
                 """
                    --------
@@ -278,6 +293,9 @@ def hangman_sketch(chances):
 
 
 def game_win():
+    """
+    Prints the Well Done logo once all letters are guessed
+    """
     print(style.GREEN +
           """
  __        __   _ _   ____                   _ 
@@ -290,6 +308,9 @@ def game_win():
 
 
 def game_over():
+    """
+    Game over logo shown once user loses all their lives
+    """
     print(style.RED +
           """
    ____                         ___                 _ 
@@ -302,6 +323,9 @@ def game_over():
 
 
 def replay_game():
+    """
+    Gives the user a choice to restart the game
+    """
     while True:
         response = input("Would you like to play again? Y/N ").upper()
         if response == "Y":
