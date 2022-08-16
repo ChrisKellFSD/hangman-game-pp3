@@ -100,11 +100,13 @@ def play(word):
     print(hangman_word)
     print("\n")
     while not guessed and chances > 0:
+        print(f"Guessed Letters: {guessed_letters}")
+        print(f"Chances left: {chances}")
+        print("\n")
         guess = input("Guess a letter or word: ").upper()
         if len(guess) == 1 and guess.isalpha():
             if guess in guessed_letters:
                 clear_terminal()
-                print(f"You already guessed the letter: {guess}")
             elif guess not in word:
                 clear_terminal()
                 print(f"Unlucky, {guess} is not in the word.")
