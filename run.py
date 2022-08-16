@@ -2,18 +2,6 @@ import random
 import os
 from words_for_hangman import hangman_words
 
-print(
-        """
-                                                            +---+
-.-. .-.  .--.  .-. .-. .---. .-.   .-.  .--.  .-. .-.       |   |
-| {_} | / {} \ |  `| |/   __}|  `.'  | / {} \ |  `| |       O   |
-| { } |/  /\  \| |\  |\  {_ }| |\ /| |/  /\  \| |\  |      /|\  |
-`-' `-'`-'  `-'`-' `-' `---' `-' ` `-'`-'  `-'`-' `-'      / \  |
-                                                                |  
-                                                         =========                                   
-        """
-    )
-
 
 def get_word():
     word = random.choice(hangman_words)
@@ -66,17 +54,20 @@ def rules():
     clear_terminal()
     print(
         """
-            Thank you for choosing to play Hangman.
-            You will be presented with a secret word.
-            You must guess a letter each round.
-            If you are correct, you will see the letter.
-            If you are wrong, you will lose a live.
-            You have as many goes as it takes for the man to be hanged.
-            You can choose the difficulty level (Not yet!)
-            \n
-            Good luck and have fun!
-            """
-            )
+          +-\033[1m HOW TO PLAY \033[0m--------------------------------------------------+
+          |                                                                |
+          |  Thank you for choosing to play Hangman.                       |
+          |  You will be presented with a secret word.                     |
+          |  You must guess a letter each round.                           |
+          |  If you are correct, you will see the letter.                  |
+          |  If you are wrong, you will lose a life.                       |
+          |  You have as many goes as it takes for the man to be hanged.   |
+          |                                                                |
+          |  Good luck and have fun!                                       |
+          |                                                                |
+          +----------------------------------------------------------------+
+          """
+         )
 
     input("Press enter to return to the main menu \n")
     main_menu()
@@ -272,20 +263,19 @@ def game_over():
 
 def replay_game():
     while True:
-        player_input = input("Would you like to play again? Y/N ").upper()
-        print('\n')
-        if player_input == "Y":
+        response = input("Would you like to play again? Y/N ").upper()
+        if response == "Y, y":
             play_game()
-        elif player_input == "N":
+        elif response == "N, n":
             main_menu()
         else:
             print("You must press Y or N")
 
 
 def play_game():
+    clear_terminal()
     word = get_word()
     play(word)
-
 
 
 main_menu()
