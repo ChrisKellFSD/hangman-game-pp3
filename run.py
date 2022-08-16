@@ -31,6 +31,19 @@ def main_title():
         """ + style.END.center(40))
 
 
+def player_name():
+    print("Welcome to Hangman!".center(60))
+    global name
+    while True:
+        name = input("So tell me, what is your name? ".center(60))
+        if name.isalpha():
+            print(f"Welcome, {name}! Hope you have fun!".center(60))
+            return name
+        else:
+            print("Not a valid choice".center(60))
+    return name
+
+
 def clear_terminal():
     """
     Clears the terminal
@@ -40,11 +53,14 @@ def clear_terminal():
     print("\n")
 
 
-def main_menu():
+def main_menu(name):
     """
     Display a welcome title and navigate to start the game or see rules
     """
     clear_terminal()
+    print(f"Hello {name}. Good luck!".center(60))
+    print("\n")
+    print("\n")
     option_1 = "1: Play Hangman"
     option_1_cnt = option_1.center(60)
     print(option_1_cnt)
@@ -57,12 +73,12 @@ def main_menu():
         if player_choice == "1":
             play_game()
         elif player_choice == "2":
-            rules()
+            rules(name)
         else:
             print("To proceed, please choose either 1 or 2")
 
 
-def rules():
+def rules(name):
     """
     Display rules after the title
     """
@@ -84,12 +100,16 @@ def rules():
           +----------------------------------------------------------------+
           """ + style.END
             )
+    
+    while True:
+        return_key = input("Press R to return the main menu").upper()
+        if return_key == "R":
+            main_menu(name)
+        else:
+            print(style.RED + "Press R to return to menu  " + style.END)
 
-    input(style.BOLD + "Press any key return to the main menu \n" + style.END)
-    main_menu()
 
-
-def play(word):
+def play(word, name):
     hangman_word = "_" * len(word)
     guessed = False
     guessed_letters = []
@@ -145,13 +165,13 @@ def play(word):
     if guessed:
         clear_terminal()
         game_win()
-        print(f"Congrats, you guessed the word {word}")
+        print(f"Congrats {name}, you guessed the word {word}")
         replay_game()
     else:
         clear_terminal()
         game_over()
         print("\n")
-        print(f"To ease your pain, the word was {word}")
+        print(f"Tough luck {name}, the word was {word}")
         replay_game()
 
 
@@ -287,7 +307,7 @@ def replay_game():
         if response == "Y":
             play_game()
         elif response == "N":
-            main_menu()
+            main()
         else:
             print("You must press Y or N")
 
@@ -295,8 +315,13 @@ def replay_game():
 def play_game():
     clear_terminal()
     word = get_word()
-    play(word)
+    play(word, name)
 
 
-main_title()
-main_menu()
+def main():
+    main_title()
+    player_name()
+    main_menu(name)
+
+
+main()
